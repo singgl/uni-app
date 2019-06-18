@@ -1,0 +1,57 @@
+{
+	// pages数组中第一项表示应用启动页，设置页面路径及窗口表现
+	"pages": [ 
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationStyle":"custom",				//导航栏样式，仅支持 default/custom。custom即取消默认的原生导航栏	微信小程序7.0+、百度小程序、H5。
+				"backgroundColor":"#eeeeee",			//窗口的背景色	微信小程序、百度小程序、头条小程序
+				"backgroundTextStyle":"dark",			//下拉 loading 的样式，仅支持 dark/light	
+				"enablePullDownRefresh":true			//是否开启下拉刷新，详见页面生命周期。
+			}
+		},
+		{
+			"path":"pages/mypersonal/personal",
+			"style":{
+				"navigationStyle":"default"
+			}
+		}
+	    ,{
+            "path" : "pages/list/list",
+            "style" : {
+				"navigationBarTitleText":"城市列表"
+			}
+        }
+        ,{
+            "path" : "pages/setting/setting",
+            "style" : {}
+        }
+    ],
+	"tabBar": {
+		"color":"#C0C4C6",					//tab 上的文字默认颜色	
+		"selectedColor":"#2386EE",			//tab 上的文字选中时的颜色	
+		"backgroundColor":"#FFFFFF",		//tab 的背景色	
+		"borderStyle":"black",	 			//tabbar 上边框的颜色，仅支持 black/white	
+		"list":[
+			{
+				"iconPath":"static/home.png",
+				"selectedIconPath":"static/home_light.png",
+				"pagePath":"pages/index/index",	//页面路径，必须在 pages 中先定义
+				"text":"首頁"					//tab 上按钮文字，在 5+APP 和 H5 平台为非必填。例如中间可放一个没有文字的+号图标
+			},
+			{
+				"iconPath":"static/people.png",
+				"selectedIconPath":"static/people_light.png",
+				"pagePath":"pages/mypersonal/personal",	
+				"text":"我的"		
+			}
+		],		
+		"position":"bottom"
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#FFFFFF"
+	}
+}
