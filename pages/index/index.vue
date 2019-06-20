@@ -79,10 +79,12 @@
 
 <script >
 	import {
-		mapState,
-		mapMutations
+		mapState
 	} from "vuex"
 	import {getWeather, getFuture, gelocation, getAir, getLift} from "@/common/utils/https.js"
+	//#ifdef MP-WEIXIN
+		import amapFile from "@/common/utils/amap-wx.js"
+	//#endif
 	export default {
 		data() {
 			return {
@@ -145,20 +147,17 @@
 			console.log("9")
 		},
 		methods: {
-			// 获取位置信息
+			// 高德地址逆解析
 			getLocation() {
-				// https服务上才能调用
+				// 仅支持https
 				uni.getLocation({
-					success: (res) => {
-						console.log(res, "位置信息")
-						this.city = res.longitude+","+res.latitude
-							
-						// this.getWether(this.city)
+					success: function (res) {
+						console.log(res)
 					}
 				})
 				this.getWether(this.city)
 			},
-			// 獲取頁面數據
+			// 获取页面数据
 			getWether(key) {
 				console.log("-------------------" , key)
 				var that = this

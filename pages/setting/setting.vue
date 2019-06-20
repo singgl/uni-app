@@ -1,56 +1,141 @@
 <style lang="scss" scoped>
-
+	.setting {
+		font-size: 28rpx;
+		color: #666;
+		.s{
+			.t {
+				overflow: hidden;
+				padding: 0 40rpx;
+				background: #fff;
+				margin-bottom: 20rpx;
+				.title {
+					font-size: 32rpx;
+					color: #40a7e7;
+					margin: 26rpx 0;
+				}
+				.content{
+					padding-left: 20rpx;
+					.subtitle {
+						font-size: 28rpx;
+						color: #40a7e7;
+					}
+					.item {
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						height: 100rpx;
+						.tip {
+							font-size: 22rpx;
+							color: #999;
+							display: flex;
+							justify-content: flex-start;
+							align-items: center;
+							&image {
+								width: 24rpx;
+								height: 24rpx;
+								margin-right: 10rpx;
+							}
+						}
+					}
+				}
+			}
+		}
+		.toast{
+			.mask {
+				position: fixed;
+				z-index: 9;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				margin: auto;
+				background: rgba(0, 0, 0, .5);
+			}
+			.wrapper {
+				position: fixed;
+				z-index: 10;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				margin: auto;
+				background: #fff;
+				font-size: 24rpx;
+				color: #333;
+				width: 60%;
+				height: 400rpx;
+				border-radius: 14rpx;
+				.box {
+					height: 400rpx;
+					padding: 20rpx 28rpx;
+					overflow: scroll;
+					.t {
+						font-size: 28rpx;
+						color: #40a7e7;
+						margin: 20rpx 0;
+						padding: 0;
+					}
+					.content {
+						line-height: 1.8em;
+						text-align: justify;
+						&text {
+							display: block;
+							margin-bottom: 10rpx;
+						}
+					}
+				}
+			}
+		}
+	}
+	.item .tip image {
+		width: 24rpx;
+		height: 24rpx;
+		margin-right: 10rpx;
+	}
+	.more {
+		width: 32rpx;
+		height: 32rpx;
+	}
+	
 </style>
 
 <template>
 	<view class='setting'>
 	<!-- 自定义 -->
 		<view class='s'>
-			<view class='t'>
-				<view class='title'>
-					<view>自定义</view>
-				</view>
-				<!-- <view class='content'>
-					<view class='item'>
-						<view>打开顶部城市天气快捷搜索</view>
-						<switch color='#40a7e7' checked='{{!setting.hiddenSearch}}'  @change='switchChange' data-switchparam='hiddenSearch'></switch>
-					</view>
-					<view class='item'>
-						<view>显示生活指数信息</view>
-						<switch color='#40a7e7' checked='{{!setting.hiddenIndex}}' @change='switchChange' data-switchparam='hiddenIndex'></switch>
-					</view>
-				</view> -->
-			</view>
 			<!-- 检查更新 -->
-			<!-- <view class='t'>
+			<!--  #ifdef  MP-WEIXIN -->
+			<view class='t'>
 				<view class='title'>
 					<view>检查更新</view>
 				</view>
 				<view class='content'>
 					<view class='item'>
-						<block>
-							<view>打开首页更新提醒</view>
-							<view class='tip' @tap='updateInstruc'>
-								<image src='../image/question.png'></image>
+						<view>
+							<view>更新提醒</view>
+							<view class='tip' @tap="updateInstruc">
+								<image src='/static/question.png'></image>
 								<text v-if='enableUpdate'>在首页检测到新版本，会提示更新</text>
-								<text v-if='!enableUpdate' style='flex:1;'>基础库版本需高于 1.9.90，当前基础库版本为 {{SDKVersion}}</text>
+								<text v-if='!enableUpdate'>基础库版本需高于 1.9.90，当前基础库版本为 {{SDKVersion}}</text>
 							</view>
-						</block>
-						<switch color='#40a7e7' checked='{{setting.forceUpdate}}' @change='switchChange' data-switchParam='forceUpdate'></switch>
+						</view>
+						<switch color='#40a7e7' :checked='setting.forceUpdate' @change='switchChange' data-switchParam='forceUpdate'></switch>
 					</view>
 				</view>
-			</view> -->
+			</view>
+			<!-- #endif -->
 			<!-- 小工具 -->
-			<!-- <view class='t'>
+			<view class='t'>
 				<view class='title'>小工具</view>
-				<view class='content sub'>
+				<view class='content'>
 					<view class='subtitle'>NFC</view>
 					<view class='item' @tap='getHCEState'>
 						<view>检测是否支持NFC</view>
-						<image class='more' src='../image/arrow.png'></image>
+						<image class='more' src='/static/arrow.png'></image>
 					</view>
 				</view>
-				<view class='content sub'>
+				<!--  #ifndef  H5 -->
+				<view class='content'>
 					<view class='subtitle'>屏幕亮度</view>
 					<view class='item'>
 						<view>
@@ -60,9 +145,9 @@
 						<view>{{screenBrightness}}</view>
 					</view>
 					<view class='item' @tap='setScreenBrightness'>
-						<view style='width:100%'>
+						<view :style="{width:100+'%'}">
 							<view>设置屏幕亮度</view>
-							<slider :value='screenBrightness' min='0' max='100' step='1' block-size='12' block-color='#40a7e7' activeColor='#40a7e7' show-value='true' @change='screenBrightnessChanging' bindchanging='screenBrightnessChanging'></slider>
+							<slider :value='screenBrightness' min='0' max='100' step='1' block-size='12' block-color='#40a7e7' activeColor='#40a7e7' show-value='true' @change='screenBrightnessChanging' @changing='screenBrightnessChanging'></slider>
 						</view>
 					</view>
 					<view class='item'>
@@ -70,47 +155,55 @@
 							<view>保持常亮</view>
 							<view class='tip'>仅在当前小程序、当次生效，离开小程序后设置失效</view>
 						</view>
-						<switch color='#40a7e7' @change='switchChange' :data-switchparam='keepscreenon' :checked='keepscreenon'></switch>
+						<switch color='#40a7e7' @change='switchChange' data-switchparam='keepscreenon' :checked='setting.keepscreenon'></switch>
 					</view>
 				</view>
-				<view class='content sub'>
+				<!--  #endif -->
+				<view class='content'>
 					<view class='subtitle'>系统信息</view>
 					<view class='item' @tap='getsysteminfo'>
 						<view>查看系统信息</view>
-						<image class='more' src='../image/arrow.png'></image>
+						<image class='more' src='/static/arrow.png'></image>
 					</view>
 				</view>
-			</view> -->
+				<view class='content'>
+					<view class='subtitle'>是否开启手势解锁</view>
+					<view class='item'>
+						<view>开启后，每次都需解锁进入</view>
+						<switch color='#40a7e7' :checked='setting.gesture' @change='switchChange' data-switchParam='gesture'></switch>
+					</view>
+				</view>
+			</view>
 			<!-- 清除数据 -->
-			<!-- <view class='t'>
+			<view class='t'>
 				<view class='title'>清除数据</view>
 				<view class='content'>
-					<view class='item' @tap='removeStorage' :data-type='setting'>
+					<view class='item' @tap='removeStorage' data-type='setting'>
 						<view>
 							<view>恢复初始化设置</view>
 							<view class='tip'>
-								<image src='../image/danger.png'></image>
+								<image src='/static/danger.png'></image>
 								<text>所有设置信息都将被清除</text>
 							</view>
 						</view>
-						<image class='more' src='../image/arrow.png'></image>
+						<image class='more' src='/static/arrow.png'></image>
 					</view>
-					<view class='item'  @tap='removeStorage' :data-type='all'>
+					<view class='item'  @tap='removeStorage' data-type='all'>
 						<view>
 							<view>清除所有本地数据</view>
 							<view class='tip'>
-								<image src='../image/danger.png'></image>
+								<image src='/static/danger.png'></image>
 								<text>所有本地数据都将被清除</text>
 							</view>
 						</view>
-						<image class='more' src='../image/arrow.png'></image>
+						<image class='more' src='/static/arrow.png'></image>
 					</view>
 				</view>
-			</view> -->
+			</view>
 		</view>
 		
 		<!-- toast -->
-		<!-- <view class='toast' v-if='show'>
+		<view class='toast' v-if='show'>
 			<view class='mask' @tap='hide'></view>
 			<view class='wrapper'>
 				<view class='box'>
@@ -128,16 +221,222 @@
 					</view>
 				</view>
 			</view>
-		</view> -->
+		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		mapState,
+		mapMutations
+	} from "vuex"
 	export default {
 		data() {
 			return {
-				
-			};
+				show: false,
+				screenBrightness: '获取中',
+				keepscreenon: false,
+				SDKVersion: '',
+				enableUpdate: true,
+				indexPage: {}
+			}
+		},
+		computed: {
+			...mapState({
+				setting: state => state.global.setting
+			})
+		},
+		onLoad() {
+			
+		},
+		onShow() {
+			//#ifndef H5
+				this.getScreenBrightness()
+			//#endif
+			
+		},
+		mounted() {
+			
+		},
+		methods:{ 
+			...mapMutations(["setTing"]),
+			updateInstruc() {
+				this.show = true
+			},
+			switchChange(e) {
+				console.log(e)
+				let dataset = e.currentTarget.dataset
+				let switchparam = dataset.switchparam
+				let setting = this.setting
+				if (switchparam === 'forceUpdate') {
+					if (this.enableUpdate) {
+						setting[switchparam] = (e.detail || {}).value
+					} else {
+						setting[switchparam] = false
+						uni.showToast({
+							title: '基础库版本较低，无法使用该功能',
+							icon: 'none',
+							duration: 2000,
+						})
+					}
+				} else if (switchparam === 'keepscreenon') {
+					setting[switchparam] = (e.detail || {}).value
+					// #ifndef H5
+					this.setKeepScreenOn()
+					// #endif
+				} else{
+					setting[switchparam] = (e.detail || {}).value
+					if(e.detail.value) {
+						setTimeout(function() {
+							uni.navigateTo({
+								url:"/pages/gesture/gesture"
+							})
+						}, 500);
+					}else{
+						return
+					}
+				}
+				console.log(this.setting)
+				this.setTing(setting)
+			},
+			screenBrightnessChanging(e) {
+				console.log(e.detail.value)
+				//#ifndef H5
+					this.setScreenBrightness(e.detail.value)
+				//#endif
+			},
+			setScreenBrightness (val) {
+				uni.setScreenBrightness({
+				    value: val / 100,
+				    success: function () {
+				        console.log('success')
+						this.screenBrightness = val
+				    }
+				})
+			},
+			getScreenBrightness() {
+				uni.getScreenBrightness({
+					success: (res) => {
+						this.screenBrightness = Number(res.value * 100).toFixed(0)
+					},
+					fail: (res) => {
+						this.screenBrightness = '获取失败'
+					}
+				})
+			},
+			getHCEState () {
+				//#ifdef MP-WEIXIN || APP-PLUS
+				uni.showLoading({title: '检测中...'})
+				uni.getHCEState({
+					success: function (res) {
+						uni.hideLoading()
+						uni.showModal({
+							title: '检测结果',
+							content: '该设备支持NFC功能',
+							showCancel: false,
+							confirmText: '朕知道了',
+							confirmColor: '#40a7e7',
+						})
+					},
+					fail: function (res) {
+						wx.hideLoading()
+						wx.showModal({
+							title: '检测结果',
+							content: '该设备不支持NFC功能',
+							showCancel: false,
+							confirmText: '朕知道了',
+							confirmColor: '#40a7e7',
+						})
+					}
+				})
+				//#endif
+				//#ifndef APP-PLUS || MP-WEIXIN
+				uni.showToast({
+					title:"仅支持App及小程序",
+					icon:"none"
+				})
+				//#endif
+			},
+			removeStorage(e) {
+				let type = e.currentTarget.dataset.type
+				this.clear(type)
+			},
+			clear(type) {
+				switch (type){
+					case "setting":
+						this.setClear()
+						break;
+					case "all":
+						this.locclear()
+						break;
+				}
+			},
+			setClear() {
+				uni.showModal({
+					title: '提示',
+					content: '确认要初始化设置',
+					cancelText: '容朕想想',
+					confirmColor: '#40a7e7',
+					success: (res) => {
+						if (res.confirm) {
+							uni.removeStorage({
+								key: 'setting',
+								success: (res) => {
+									
+									uni.showToast({
+										title: '初始化成功', icon:"none"
+									})
+								}
+							})
+						}
+					}
+				})
+			},
+			locclear() {
+				uni.showModal({
+					title: '提示',
+					content: '确认要删除',
+					cancelText: '容朕想想',
+					confirmColor: '#40a7e7',
+					success: (res) => {
+						if (res.confirm) {
+							uni.clearStorage({
+								success: (res) => {
+									uni.showToast({
+										title: '数据已清除', icon:"none"
+									})
+								}
+							})
+							//返回首页
+							
+						}
+					}
+				})
+			},
+			hide() {
+				this.show = false
+			},
+			ifDisableUpdate () {
+				let systeminfo = getApp().globalData.systeminfo
+				let SDKVersion = systeminfo.SDKVersion
+				let version = cmpVersion(SDKVersion, '1.9.90')
+				if (version >=0) {
+					this.setData({
+						SDKVersion,
+						enableUpdate: true,
+					})
+				} else {
+					this.setData({
+						SDKVersion,
+						enableUpdate: false,
+					})
+				}
+			},
+			setKeepScreenOn() {
+				uni.setKeepScreenOn({
+					keepScreenOn: true
+				})
+			}
 		}
 	}
 </script>

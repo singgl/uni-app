@@ -13,7 +13,10 @@
 		{
 			"path":"pages/mypersonal/personal",
 			"style":{
-				"navigationStyle":"default"
+				// #ifdef H5 
+				"navigationStyle":"custom",
+				// #endif
+				"navigationBarBackgroundColor":"#49A3EE"
 			}
 		}
 	    ,{
@@ -24,7 +27,19 @@
         }
         ,{
             "path" : "pages/setting/setting",
-            "style" : {}
+            "style" : {
+				// #ifdef H5 
+				"navigationStyle":"custom"
+				// #endif
+			}
+        }
+        ,{
+            "path" : "pages/gesture/gesture",
+            "style" : {
+				// #ifdef H5 
+				"navigationStyle":"custom"
+				// #endif
+			}
         }
     ],
 	"tabBar": {

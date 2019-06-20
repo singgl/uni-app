@@ -53,12 +53,8 @@ function getWeather(location) {
 function getFuture(location) {
 	return new Promise((resolve, reject) => {
 		uni.request({
-			// url: "/v/weather/index",
 			url: weather+"/forecast",
 			data: {
-				// cityname:location,
-				// key: QQ_MAP_KEY2
-				
 				location:location,
 				key: QQ_MAP_KEY1
 			},

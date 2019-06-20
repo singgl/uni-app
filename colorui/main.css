@@ -237,7 +237,13 @@ switch .uni-switch-input {
 
 switch .wx-switch-input:not([class*="bg-"]),
 switch .uni-switch-input:not([class*="bg-"]) {
-	background: var(--grey) !important;
+	/*  #ifdef  H5  */
+		background: var(--grey); /*去掉!important*/
+	/* #endif */
+	
+	/* #ifndef H5 */
+		background: var(--grey) !important; 
+	/* #endif */
 }
 
 switch .wx-switch-input::after,
