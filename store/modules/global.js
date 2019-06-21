@@ -7,6 +7,10 @@ const state = {
 	signState:uni.getStorageSync('signState') || false,
 	sing: uni.getStorageSync("sing") || 0,
 	setting: uni.getStorageSync("setting") || {},
+	// 手势密码
+	psWord: uni.getStorageSync("word") || "",
+	pwState: true,
+	systeminfo:""
 }
 const mutations = {
 	setCity(state, value){
@@ -17,14 +21,22 @@ const mutations = {
 		state.signState = value
 	},
 	setSing(state, value) {
-		console.log(value)
 		uni.setStorageSync("sing", value)
 		state.sing = value
 	},
 	setTing(state, value) {
-		console.log(value)
 		uni.setStorageSync("setting", value)
 		state.setting = value
+	},
+	setWord(state, value) {
+		uni.setStorageSync("word", value)
+		state.psWord = value
+	},
+	setPwSta(state, value) {
+		state.pwState = value
+	},
+	setSysteminfo(state, value) {
+		state.systeminfo = value
 	}
 }
 const actions = {

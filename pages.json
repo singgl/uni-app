@@ -41,6 +41,10 @@
 				// #endif
 			}
         }
+        ,{
+            "path" : "pages/syeminfo/syeminfo",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color":"#C0C4C6",					//tab 上的文字默认颜色	

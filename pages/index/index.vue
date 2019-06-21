@@ -41,47 +41,75 @@
 			
 		}
 	}
+	.uni-common-mt{
+		position: fixed;
+		height: 100vh;
+		width: 100vw;
+		top: 0;
+		left: 0;
+		background: #fff;
+		display: flex;
+		flex-wrap: wrap;  
+		align-items: center;
+		.uni-center{
+			display: block;
+			width: 100vw;
+			text-align: center;
+			margin-top: 30rpx;
+			color: #999;
+		}
+	}
 </style>
 
 <template>
-	<view class="content">
-		<scroll-view scroll-y="true" :style="{height:scollHeight+'px'}">
-			<!-- 頭部 -->
-			<view class="top">
-				<view class="adress">
-					<text class="iconfont icon-dizhiguanli"></text>
-					<text @tap="cityList">{{city}}</text>
-				</view>
-				<view class="now_watch">
-					<view class="temp">
-						<text class="temp">{{now.tmp == undefined ? 0 : now.tmp}}°</text>
+	<view>
+		<view class="content">
+			<scroll-view scroll-y="true" :style="{height:scollHeight+'px'}">
+				<!-- 頭部 -->
+				<view class="top">
+					<view class="adress">
+						<text class="iconfont icon-dizhiguanli"></text>
+						<text @tap="cityList">{{city}}</text>
 					</view>
-					<view class="inline">
-						<view class="item">{{now.cond_txt == undefined ? "" : now.cond_txt}} {{now.hum == undefined ? "" : now.hum}}</view>
-						<view class="item">{{now.wind_dir == undefined ? "" : now.wind_dir}} {{now.wind_sc == undefined ? 0 : now.wind_sc}}级</view>
+					<view class="now_watch">
+						<view class="temp">
+							<text class="temp">{{now.tmp == undefined ? 0 : now.tmp}}°</text>
+						</view>
+						<view class="inline">
+							<view class="item">{{now.cond_txt == undefined ? "" : now.cond_txt}} {{now.hum == undefined ? "" : now.hum}}</view>
+							<view class="item">{{now.wind_dir == undefined ? "" : now.wind_dir}} {{now.wind_sc == undefined ? 0 : now.wind_sc}}级</view>
+						</view>
 					</view>
 				</view>
-			</view>
-			<view class="main">
-				<view class="items" v-for="(item,index) in list" :key="index">
-					<text></text>
-					<text></text>
-					<text></text>
+				<view class="main">
+					<view class="items" v-for="(item,index) in list" :key="index">
+						<text></text>
+						<text></text>
+						<text></text>
+					</view>
 				</view>
-			</view>
-			<!-- 底部 -->
-			<view class="bot">
-				
-			</view>
-		</scroll-view>
+				<!-- 底部 -->
+				<view class="bot">
+					
+				</view>
+			</scroll-view>
+		</view>
+		
+		<view class="uni-common-mt" v-if="setting.gesture && pwState">
+			<mpvue-gesture-lock :containerWidth="590" :cycleRadius="70" @end="onEnd"></mpvue-gesture-lock>
+			<view class="uni-center">{{text}}</view>
+		</view>
 	</view>
+	
 </template>
 
 <script >
 	import {
-		mapState
+		mapState,
+		mapMutations
 	} from "vuex"
 	import {getWeather, getFuture, gelocation, getAir, getLift} from "@/common/utils/https.js"
+	import mpvueGestureLock from '@/components/mpvueGestureLock/index.vue';
 	//#ifdef MP-WEIXIN
 		import amapFile from "@/common/utils/amap-wx.js"
 	//#endif
@@ -97,12 +125,19 @@
 					lng:""
 				},
 				air:{},
-				tips:""
+				tips:"",
+				text:"手势解锁"
 			}
+		},
+		components: {
+			mpvueGestureLock
 		},
 		computed: {
 			...mapState({
-				city: state => state.global.city
+				city: state => state.global.city,
+				setting: state => state.global.setting,
+				psWord: state => state.global.psWord,
+				pwState: state => state.global.pwState
 			})
 		},
 		onNavigationBarButtonTap() {  
@@ -115,9 +150,10 @@
 		onShow() {
 			//#ifdef H5 
 				document.title="首頁"
-			//#endif	
-			
+			//#endif
+				
 			this.getLocation()
+			
 		},
 		onReady() {
 			console.log("4")
@@ -147,6 +183,17 @@
 			console.log("9")
 		},
 		methods: {
+			...mapMutations(["setPwSta"]),
+			// 手势解锁
+			onEnd(data) {
+				console.log(data.join(''))
+				if(data.join('') === this.psWord) {
+					this.setPwSta(false)
+					console.log("解锁成功")
+				}else{
+					this.text = "手势不正确"
+				}
+			},
 			// 高德地址逆解析
 			getLocation() {
 				// 仅支持https
@@ -161,7 +208,9 @@
 			getWether(key) {
 				console.log("-------------------" , key)
 				var that = this
-				this.$tos.Loding("加載中...")
+				if(!this.setting.gesture) {
+					this.$tos.Loding("加載中...")
+				}
 				getWeather(key).then((res) =>{
 					if(res.result.HeWeather6[0].status === "ok") {
 						that.local.lat = res.result.HeWeather6[0].basic.lat

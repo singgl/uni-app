@@ -12,6 +12,11 @@
 		},
 		onShow: function() {
 			console.log('App Show')
+			uni.getSystemInfo({
+				success: (res) => {
+					this.setSysteminfo(res)
+				}
+			})
 		},
 		onHide: function() {
 			console.log('App Hide')
@@ -30,7 +35,7 @@
 			})
 		},
 		methods:{
-			...mapMutations(["setTing"]),
+			...mapMutations(["setTing", "setSysteminfo"]),
 			// 更新
 			Upload() {
 				console.log("哈哈")

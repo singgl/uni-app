@@ -237,8 +237,7 @@
 				screenBrightness: '获取中',
 				keepscreenon: false,
 				SDKVersion: '',
-				enableUpdate: true,
-				indexPage: {}
+				enableUpdate: true
 			}
 		},
 		computed: {
@@ -246,14 +245,21 @@
 				setting: state => state.global.setting
 			})
 		},
-		onLoad() {
-			
+		watch:{
+			setting: {
+				handler: function(old, newold){
+					console.log(old, newold,"监听")
+				},    
+				deep: true
+			}
 		},
-		onShow() {
+		onLoad() {
 			//#ifndef H5
 				this.getScreenBrightness()
 			//#endif
-			
+		},
+		onShow() {
+			console.log(this.setting.gesture)
 		},
 		mounted() {
 			
@@ -262,6 +268,11 @@
 			...mapMutations(["setTing"]),
 			updateInstruc() {
 				this.show = true
+			},
+			getsysteminfo() {
+				uni.navigateTo({
+					url:"/pages/syeminfo/syeminfo"
+				})
 			},
 			switchChange(e) {
 				console.log(e)
@@ -284,7 +295,7 @@
 					// #ifndef H5
 					this.setKeepScreenOn()
 					// #endif
-				} else{
+				} else {
 					setting[switchparam] = (e.detail || {}).value
 					if(e.detail.value) {
 						setTimeout(function() {
@@ -292,11 +303,9 @@
 								url:"/pages/gesture/gesture"
 							})
 						}, 500);
-					}else{
-						return
 					}
 				}
-				console.log(this.setting)
+				console.log(this.setting,"-----------000000000")
 				this.setTing(setting)
 			},
 			screenBrightnessChanging(e) {
@@ -379,10 +388,15 @@
 					confirmColor: '#40a7e7',
 					success: (res) => {
 						if (res.confirm) {
+							// let setting = that.setting
+							// setting.gesture = false
+							// console.log(setting)
+							// that.setTing(setting)
+							uni.removeStorageSync("word")
 							uni.removeStorage({
 								key: 'setting',
 								success: (res) => {
-									
+									this.setTing({})
 									uni.showToast({
 										title: '初始化成功', icon:"none"
 									})
