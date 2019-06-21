@@ -3,40 +3,19 @@
 		padding: 0 30rpx 0 30rpx;
 		background: #fff;
 		margin-bottom: 20rpx;
-		.brand {
-			font-family: DINCondensed-Bold;
-			height: 300rpx;
-			font-size: 100rpx;
-			color: #40a7e7;
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			align-items: center;
-			&image {
-				width: 100rpx;
-				height: 100rpx;
-				margin-right: 20rpx;
-			}
-			&text {
-			  line-height: 1em;
-			}
-		}
 		.item {
 			display: flex;
+			height: 80rpx;
+			line-height: 80rpx;
 			flex-direction: column;
 			justify-content: space-between;
 			align-items: flex-start;
 			font-size: 30rpx;
 			color: #000;
-			padding: 30rpx 15rpx;
-			height: 62rpx;
 			border-top: 1rpx solid #efefef;
-			.key {
-				line-height: 1em;
-			}
 			.value {
+				align-self:flex-end;
 				font-size: 24rpx;
-				line-height: 1em;
 				color: #777;
 			}
 		}
@@ -48,10 +27,6 @@
 
 <template>
 	<view class='systeminfo'>
-		<view class='brand'>
-			<image src='/static/mobile.png'></image>
-			<text>{{systeminfo.brand}}</text>
-		</view>
 		<view class='item' v-for='(item, index) in systeminfoArr' :key='index'>
 			<view class='key'>{{item.name}}</view>
 			<view class='value'>{{systeminfo[item.key]}}</view>
