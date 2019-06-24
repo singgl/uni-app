@@ -259,7 +259,7 @@
 			//#endif
 		},
 		onShow() {
-			console.log(this.setting.gesture)
+			console.log(this.setting,"---------")
 		},
 		mounted() {
 			
@@ -305,7 +305,6 @@
 						}, 500);
 					}
 				}
-				console.log(this.setting,"-----------000000000")
 				this.setTing(setting)
 			},
 			screenBrightnessChanging(e) {
@@ -381,6 +380,7 @@
 				}
 			},
 			setClear() {
+				let that = this
 				uni.showModal({
 					title: '提示',
 					content: '确认要初始化设置',
@@ -388,20 +388,15 @@
 					confirmColor: '#40a7e7',
 					success: (res) => {
 						if (res.confirm) {
-							// let setting = that.setting
-							// setting.gesture = false
-							// console.log(setting)
-							// that.setTing(setting)
 							uni.removeStorageSync("word")
-							uni.removeStorage({
-								key: 'setting',
-								success: (res) => {
-									this.setTing({})
-									uni.showToast({
-										title: '初始化成功', icon:"none"
-									})
-								}
+							Object.keys(that.setting).forEach(function(key){
+								that.setting[key] = false
+								console.log(that.setting);
+							});
+							uni.showToast({
+								title: '初始化成功', icon:"none"
 							})
+							
 						}
 					}
 				})

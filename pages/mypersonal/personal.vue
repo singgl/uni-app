@@ -54,7 +54,7 @@
 		<view class='portrait'>
 			<image class="userinfo-avatar" :src="userInfo.avatarUrl ? userInfo.avatarUrl : '/static/icon.png'" mode="aspectFit"></image>
 			<view>{{userInfo.nickName}}</view>
-			<view class='sign' :class='signState ? "signs" : ""' @tap='signClick'>{{signState?"已签到":"签到"}}</view>
+			<view class='sign' :class='signState.status ? "signs" : ""' @tap='signClick'>{{signState.status?"已签到":"签到"}}</view>
 		</view>
 		
 		<view class='userlist cu-list menu'>  
@@ -77,7 +77,8 @@
 <script >
 	import {
 		mapState,
-		mapMutations
+		mapMutations,
+		mapActions
 	} from "vuex"
 	export default {
 		data() {
@@ -118,6 +119,7 @@
 		},
 		methods: {
 			...mapMutations(["setState", "setSing"]),
+			...mapActions(["Times"]),
 			bind(signClick) {
 				switch (signClick){
 					case "bindSeting":
@@ -162,13 +164,27 @@
 				//#endif
 			},
 			signClick() {
-				if(this.signState) {
-					return
+				var obj = {}
+				//#ifdef MP-WEIXIN
+				if(this.userinfo) {
+				//#endif
+					if(this.signState.status) {
+						return
+					}else{
+						this.Times().then((res) =>{
+							obj.data = res
+							obj.status = true
+							this.setState(obj)
+						})
+						this.setSing(++this.sing)
+					}
+				//#ifdef MP-WEIXIN
 				}else{
-					this.setState(true)
-					console.log(++this.sing)
-					this.setSing(++this.sing)
+					uni.navigateTo({
+						url:"/pages/login/login"
+					})
 				}
+				//#endif
 			},
 		}
 	}

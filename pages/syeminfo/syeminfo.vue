@@ -7,12 +7,13 @@
 			display: flex;
 			height: 80rpx;
 			line-height: 80rpx;
-			flex-direction: column;
 			justify-content: space-between;
-			align-items: flex-start;
 			font-size: 30rpx;
 			color: #000;
 			border-top: 1rpx solid #efefef;
+			.key{
+				align-self:flex-start;
+			}
 			.value {
 				align-self:flex-end;
 				font-size: 24rpx;
@@ -41,7 +42,6 @@
 	export default {
 		data() {
 			return {
-				systeminfoObj: {},
 				systeminfoArr: [
 				  {
 				    key: 'brand',

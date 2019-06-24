@@ -1,7 +1,8 @@
 <script>
 	import {
 		mapState,
-		mapMutations
+		mapMutations,
+		mapActions
 	} from "vuex"
 	export default {
 		onLaunch: function() {
@@ -11,10 +12,28 @@
 			}
 		},
 		onShow: function() {
-			console.log('App Show')
+			console.log('App Show', this.signState)
 			uni.getSystemInfo({
 				success: (res) => {
 					this.setSysteminfo(res)
+				}
+			})
+			
+			this.isDay(this.signState.data).then((res) => {
+				console.log(res,"-----9999999999------")
+				if(res) {
+					if(this.signState.status) {
+						this.setState({})
+					}else{
+						this.setState({})
+						this.setSing(0)
+					}
+				}else{
+					if(this.signState.status) {
+						return
+					}else{
+						this.setState({})
+					}
 				}
 			})
 		},
@@ -31,11 +50,13 @@
 		},
 		computed: {
 			...mapState({
-				setting: state => state.global.setting
+				setting: state => state.global.setting,
+				signState: state => state.global.signState,
 			})
 		},
 		methods:{
-			...mapMutations(["setTing", "setSysteminfo"]),
+			...mapMutations(["setTing", "setSysteminfo", "setState", "setSing"]),
+			...mapActions(["isDay"]),
 			// 更新
 			Upload() {
 				console.log("哈哈")

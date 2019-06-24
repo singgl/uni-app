@@ -43,7 +43,19 @@
         }
         ,{
             "path" : "pages/syeminfo/syeminfo",
-            "style" : {}
+            "style" : {
+				// #ifdef H5 
+				"navigationStyle":"custom"
+				// #endif
+			}
+        }
+        ,{
+            "path" : "pages/login/login",
+            "style" : {
+				// #ifdef H5 
+				"navigationStyle":"custom"
+				// #endif
+			}
         }
     ],
 	"tabBar": {
