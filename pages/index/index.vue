@@ -70,6 +70,7 @@
 					<view class="adress">
 						<text class="iconfont icon-dizhiguanli"></text>
 						<text @tap="cityList">{{city}}</text>
+						<text class="iconfont icon-enter"></text>
 					</view>
 					<view class="now_watch">
 						<view class="temp">
