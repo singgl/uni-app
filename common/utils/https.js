@@ -2,9 +2,9 @@ const weather = 'https://free-api.heweather.net/s6/weather'
 const future = 'http://v.juhe.cn/weather/index'
 const air = 'https://free-api.heweather.net/s6/air/now'
 const locl = 'http://apis.juhe.cn/geo/'
-const QQ_MAP_KEY1 = '********************************'
-const QQ_MAP_KEY2 = '********************************'
-const QQ_MAP_KEY3 = '********************************'
+const QQ_MAP_KEY1 = '630ac2e3d80941b48c80fe3a8ed1a042'
+const QQ_MAP_KEY2 = 'c649beb3621c84ee57c365f45a9a6ed4'
+const QQ_MAP_KEY3 = 'dd35eaa26348f268f1f02b4a8fbe4aaf'
 
 
 //添加finally事件

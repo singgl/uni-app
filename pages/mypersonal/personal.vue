@@ -166,7 +166,7 @@
 			signClick() {
 				var obj = {}
 				//#ifdef MP-WEIXIN
-				if(this.userinfo) {
+				if(this.userInfo) {
 				//#endif
 					if(this.signState.status) {
 						return
@@ -185,7 +185,7 @@
 					})
 				}
 				//#endif
-			},
+			}
 		}
 	}
 </script>

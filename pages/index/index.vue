@@ -96,7 +96,9 @@
 		</view>
 		
 		<view class="uni-common-mt" v-if="setting.gesture && pwState">
-			<mpvue-gesture-lock :containerWidth="590" :cycleRadius="70" @end="onEnd"></mpvue-gesture-lock>
+			<view style="width: 100vw;">
+				<mpvue-gesture-lock :containerWidth="590" :cycleRadius="70" @end="onEnd"></mpvue-gesture-lock>
+			</view>
 			<view class="uni-center">{{text}}</view>
 		</view>
 	</view>

@@ -32,13 +32,18 @@
 					//用户拒绝
 					console.log("拒绝授权", e);
 				} else {
-					app.getloading("加载中...")
 					console.log("用户允许微信授权", e);
+					uni.showLoading({
+						title:"加载中..."
+					})
 					// 这里可以发送code到后台换取秘钥
-					this.setUserinfo()
-					// uni.reLaunch({
-					// 	url:"/pages/index/index"
-					// })
+					this.setUserinfo(e.detail.userInfo)
+					setTimeout(function() {
+						uni.hideLoading()
+						uni.reLaunch({
+							url:"/pages/index/index"
+						})
+					}, 100);
 				}		
 			},
 		}

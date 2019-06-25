@@ -311,6 +311,7 @@
 				console.log(e.detail.value)
 				//#ifndef H5
 					this.setScreenBrightness(e.detail.value)
+					this.screenBrightness = e.detail.value
 				//#endif
 			},
 			setScreenBrightness (val) {
@@ -318,7 +319,6 @@
 				    value: val / 100,
 				    success: function () {
 				        console.log('success')
-						this.screenBrightness = val
 				    }
 				})
 			},
