@@ -82,7 +82,7 @@
             "postcss" : true,
             "minified" : true
         },
-        "usingComponents" : true,
+        "usingComponents" : false,
         "permission" : {
             "scope.userLocation" : {
                 "desc" : "获取位置信息,提供最优服务"

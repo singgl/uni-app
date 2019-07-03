@@ -103,7 +103,6 @@
 			<view class="uni-center">{{text}}</view>
 		</view>
 	</view>
-	
 </template>
 
 <script >
@@ -115,6 +114,11 @@
 	import mpvueGestureLock from '@/components/mpvueGestureLock/index.vue';
 	//#ifdef MP-WEIXIN
 		import amapFile from "@/common/utils/amap-wx.js"
+		import MapWX from "@/common/utils/qqmap-wx-jssdk.js"
+		
+		var qqmapsdk = new MapWX({
+			key: '申请的秘钥' // 必填
+		});
 	//#endif
 	export default {
 		data() {
@@ -154,9 +158,7 @@
 			//#ifdef H5 
 				document.title="首頁"
 			//#endif
-				
 			this.getLocation()
-			
 		},
 		onReady() {
 			console.log("4")
@@ -186,7 +188,7 @@
 			console.log("9")
 		},
 		methods: {
-			...mapMutations(["setPwSta"]),
+			...mapMutations(["setPwSta","setCity"]),
 			// 手势解锁
 			onEnd(data) {
 				console.log(data.join(''))
@@ -197,15 +199,32 @@
 					this.text = "手势不正确"
 				}
 			},
-			// 高德地址逆解析
+			// 逆解析
 			getLocation() {
+				let that = this
 				// 仅支持https
-				uni.getLocation({
-					success: function (res) {
-						console.log(res)
-					}
-				})
-				this.getWether(this.city)
+				//#ifdef MP-WEIXIN
+					uni.getLocation({
+						type:"gcj02",
+						success: function (res) {
+							qqmapsdk.reverseGeocoder({
+								location: res.latitude+","+res.longitude,
+								success: (res)=>{
+									console.log(res.result.ad_info,"--0000000--")
+									that.setCity(res.result.ad_info.district)
+									
+									that.getWether(that.city)
+								},
+								fail: (err)=>{
+									
+								}
+							})
+						}
+					})
+				//#endif
+				//#ifndef MP-WEIXIN
+					this.getWether(this.city)
+				//#endif
 			},
 			// 获取页面数据
 			getWether(key) {

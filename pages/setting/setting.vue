@@ -396,7 +396,7 @@
 							uni.showToast({
 								title: '初始化成功', icon:"none"
 							})
-							
+							this.setTing(that.setting)
 						}
 					}
 				})
