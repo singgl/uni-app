@@ -117,12 +117,13 @@
 		import MapWX from "@/common/utils/qqmap-wx-jssdk.js"
 		
 		var qqmapsdk = new MapWX({
-			key: '申请的秘钥' // 必填
+			key: 'XSVBZ-6XC6U-7HCVN-4D6HU-BPDZ7-GLBS2' // 必填
 		});
 	//#endif
 	export default {
 		data() {
 			return {
+				isLoad: true,
 				scollHeight:0,
 				now:{},
 				updata:{},
@@ -152,13 +153,17 @@
 		}, 
 		onLoad() {
 			console.log("2")
+			this.isLoad = false
 			this.getSystemHeight()
+			this.getLocation()
 		},
 		onShow() {
 			//#ifdef H5 
 				document.title="首頁"
 			//#endif
-			this.getLocation()
+			if(this.isLoad) {
+				this.getWether(this.city)
+			}
 		},
 		onReady() {
 			console.log("4")
@@ -272,6 +277,7 @@
 					that.$tos.tip(e)
 				}).finally(() =>{
 					console.log("finally")
+					this.isLoad = true
 					uni.stopPullDownRefresh();
 					that.$tos.HideLoding()
 				})

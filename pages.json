@@ -57,6 +57,14 @@
 				// #endif
 			}
         }
+        ,{
+            "path" : "pages/luckdraw/luckdraw",
+            "style" : {
+				// #ifdef H5 
+				"navigationStyle":"custom"
+				// #endif
+			}
+        }
     ],
 	"tabBar": {
 		"color":"#C0C4C6",					//tab 上的文字默认颜色	

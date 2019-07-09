@@ -200,6 +200,17 @@
 					</view>
 				</view>
 			</view>
+			<view class='t'>
+				<view class='title'>抽奖</view>
+				<view class='content'>
+					<view class='item' @tap='LuckDraw'>
+						<view>
+							<view>抽奖设置</view>
+						</view>
+						<image class='more' src='/static/arrow.png'></image>
+					</view>
+				</view>
+			</view>
 		</view>
 		
 		<!-- toast -->
@@ -274,6 +285,11 @@
 					url:"/pages/syeminfo/syeminfo"
 				})
 			},
+			LuckDraw() {
+				uni.navigateTo({
+					url:"/pages/luckdraw/luckdraw"
+				})
+			},
 			switchChange(e) {
 				console.log(e)
 				let dataset = e.currentTarget.dataset
@@ -302,7 +318,7 @@
 							uni.navigateTo({
 								url:"/pages/gesture/gesture"
 							})
-						}, 500);
+						}, 100);
 					}
 				}
 				this.setTing(setting)
@@ -391,6 +407,7 @@
 							uni.removeStorageSync("word")
 							Object.keys(that.setting).forEach(function(key){
 								that.setting[key] = false
+								that.$set(that.setting, key, false)
 								console.log(that.setting);
 							});
 							uni.showToast({
@@ -417,7 +434,6 @@
 								}
 							})
 							//返回首页
-							
 						}
 					}
 				})
